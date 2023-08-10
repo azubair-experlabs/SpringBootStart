@@ -2,7 +2,7 @@ package com.experlabs.SpringBootStart.student.service;
 
 import com.experlabs.SpringBootStart.student.respository.StudentRepository;
 import com.experlabs.SpringBootStart.student.models.Student;
-import core.utils.HelperMethods;
+import com.experlabs.SpringBootStart.core.utils.HelperMethods;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

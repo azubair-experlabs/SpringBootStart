@@ -1,4 +1,4 @@
-package core.utils;
+package com.experlabs.SpringBootStart.core.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -2,7 +2,7 @@ package com.experlabs.SpringBootStart.student.controller;
 
 import com.experlabs.SpringBootStart.student.models.Student;
 import com.experlabs.SpringBootStart.student.service.StudentService;
-import core.models.ResponseBody;
+import com.experlabs.SpringBootStart.core.models.ResponseBody;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
