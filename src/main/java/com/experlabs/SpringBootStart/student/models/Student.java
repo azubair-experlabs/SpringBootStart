@@ -10,7 +10,11 @@ import java.time.Period;
 
 @Data
 @Entity
-@Table
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "student_email_unique", columnNames = "email")
+        }
+)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Student {
     @Id
@@ -24,12 +28,22 @@ public class Student {
             generator = "student_sequence"
     )
     private Long id;
+    @Column(
+            nullable = false
+    )
     private String name;
+    @Column(
+            nullable = false
+    )
     private String email;
-    private LocalDate dob;
+    @Column(
+            name = "dob",
+            nullable = false
+    )
+    private LocalDate dateOfBirth;
 
     @JsonProperty("age")
-    Integer getAge(){
-        return Period.between(this.dob, LocalDate.now()).getYears();
+    Integer getAge() {
+        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 }
