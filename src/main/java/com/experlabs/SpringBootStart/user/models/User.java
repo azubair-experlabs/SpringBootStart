@@ -1,31 +1,36 @@
-package com.experlabs.SpringBootStart.student.models;
+package com.experlabs.SpringBootStart.user.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.Period;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(
+        name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = "student_email_unique", columnNames = "email")
+                @UniqueConstraint(name = "user_email_unique", columnNames = "email")
         }
 )
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Student {
+public class User {
     @Id
     @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
+            name = "user_sequence",
+            sequenceName = "user_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            generator = "user_sequence"
     )
     private Long id;
     @Column(
@@ -37,13 +42,16 @@ public class Student {
     )
     private String email;
     @Column(
-            name = "dob",
             nullable = false
     )
-    private LocalDate dateOfBirth;
+    private String password;
+    @Column(
+            nullable = false
+    )
+    private LocalDate dob;
 
     @JsonProperty("age")
     Integer getAge() {
-        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 }
