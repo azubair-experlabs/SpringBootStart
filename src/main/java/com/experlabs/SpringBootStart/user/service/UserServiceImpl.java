@@ -1,8 +1,8 @@
 package com.experlabs.SpringBootStart.user.service;
 
+import com.experlabs.SpringBootStart.core.utils.HelperMethods;
 import com.experlabs.SpringBootStart.user.models.User;
 import com.experlabs.SpringBootStart.user.respository.UserRepository;
-import com.experlabs.SpringBootStart.core.utils.HelperMethods;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +32,6 @@ public class UserServiceImpl implements UserService {
     public User getUserByID(Long id) {
         Optional<User> response = userRepo.findUserByID(id);
         return response.orElseThrow(() -> new EntityNotFoundException(String.format("user not found with id %d", id)));
-    }
-
-    public User registerUser(User user) {
-        boolean isTaken = userRepo.findUserByEmail(user.getEmail()).isPresent();
-        if (isTaken)
-            throw new IllegalStateException("email already taken!");
-        else
-            return userRepo.save(user);
     }
 
     public void deleteUserByID(Long id) {

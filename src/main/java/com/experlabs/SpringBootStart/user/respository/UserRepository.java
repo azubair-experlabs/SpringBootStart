@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select user from User user where user.id=?1")
     Optional<User> findUserByID(Long id);
 
-    @Query("select user from User user where user.email=?1")
+    @Query("SELECT user FROM User user WHERE user.email = :email")
     Optional<User> findUserByEmail(String email);
 
     @Query("SELECT user FROM User user WHERE LOWER(user.name) LIKE LOWER(concat('%', ?1, '%'))")

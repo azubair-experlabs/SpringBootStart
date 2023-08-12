@@ -38,11 +38,6 @@ public class UserController {
         }
     }
 
-    @PostMapping
-    public User saveUser(@RequestBody User user) {
-        return userService.registerUser(user);
-    }
-
     @DeleteMapping(path = "{userId}")
     public ResponseEntity<Object> deleteUser(@PathVariable("userId") Long id) {
         try {
