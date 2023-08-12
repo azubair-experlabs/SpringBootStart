@@ -6,7 +6,7 @@ import com.experlabs.SpringBootStart.user.models.AuthenticationResponse;
 import com.experlabs.SpringBootStart.user.models.AuthenticationRequest;
 import com.experlabs.SpringBootStart.user.models.RegisterRequest;
 import com.experlabs.SpringBootStart.user.respository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import com.experlabs.SpringBootStart.user.models.User;
@@ -15,11 +15,15 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
     private final UserRepository repository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
+
     private final AuthenticationManager authenticationManager;
 
     @Override

@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping("v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthServiceImpl service;
 
-    @PostMapping("/register")
+    @PostMapping(path = "/register")
     public ResponseEntity<Object> register (
             @RequestBody RegisterRequest request
     ) {
@@ -31,7 +31,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping
+    @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> authenticate (
             @RequestBody AuthenticationRequest request
     ) {

@@ -28,9 +28,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests( auth ->
                         auth
                                 // Allow access to /v1/auth and /v1/auth/register without authentication
-                                .requestMatchers("/v1/auth", "/v1/auth/register").permitAll()
+                                .requestMatchers("v1/auth/**").permitAll()
                                 // Secure /v1/users and /v1/users/{userId} endpoints
-                                .requestMatchers("/v1/users/**").authenticated()
+                                .requestMatchers("v1/users/**").authenticated()
                                 // All other requests require authentication
                                 .anyRequest().authenticated()
                 )

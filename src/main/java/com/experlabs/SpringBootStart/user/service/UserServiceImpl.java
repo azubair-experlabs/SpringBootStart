@@ -5,7 +5,8 @@ import com.experlabs.SpringBootStart.user.models.User;
 import com.experlabs.SpringBootStart.user.respository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +14,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepo) {
-        this.userRepo = userRepo;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getUsers(Map<String, String> queryParams) {
         String name = queryParams.get("name");
@@ -51,8 +50,8 @@ public class UserServiceImpl implements UserService {
 
         if (name != null && !name.isBlank() && !name.equals(user.getName()))
             user.setName(name);
-        if (password != null && !password.isBlank() && !password.equals(user.getPassword()))
-            user.setPassword(password);
+        if (password != null && !password.isBlank() && !passwordEncoder.matches(password, user.getPassword()))
+            user.setPassword(passwordEncoder.encode(password));
         if (email != null && !email.isBlank() && !email.equals(user.getName()) && HelperMethods.isValidEmail(email)) {
             boolean isAlreadyTaken = userRepo.findUserByEmail(email).isPresent();
             if (isAlreadyTaken)

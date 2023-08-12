@@ -4,7 +4,7 @@ import com.experlabs.SpringBootStart.user.models.User;
 import com.experlabs.SpringBootStart.user.service.UserService;
 import com.experlabs.SpringBootStart.core.models.ResponseBody;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "v1/users")
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public List<User> getUsers(@RequestParam Map<String, String> queryParams) {
