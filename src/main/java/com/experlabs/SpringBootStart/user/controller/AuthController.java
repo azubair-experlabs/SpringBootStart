@@ -1,9 +1,9 @@
 package com.experlabs.SpringBootStart.user.controller;
 
 import com.experlabs.SpringBootStart.core.models.ResponseBody;
-import com.experlabs.SpringBootStart.user.models.AuthenticationRequest;
-import com.experlabs.SpringBootStart.user.models.AuthenticationResponse;
-import com.experlabs.SpringBootStart.user.models.RegisterRequest;
+import com.experlabs.SpringBootStart.core.models.AuthenticationRequest;
+import com.experlabs.SpringBootStart.core.models.AuthenticationResponse;
+import com.experlabs.SpringBootStart.core.models.RegisterRequest;
 import com.experlabs.SpringBootStart.user.service.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

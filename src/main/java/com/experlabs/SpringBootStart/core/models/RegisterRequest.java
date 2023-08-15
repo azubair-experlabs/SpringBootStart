@@ -1,4 +1,4 @@
-package com.experlabs.SpringBootStart.user.models;
+package com.experlabs.SpringBootStart.core.models;
 
 import lombok.Data;
 

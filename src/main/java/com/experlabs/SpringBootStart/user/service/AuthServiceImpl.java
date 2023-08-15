@@ -1,10 +1,10 @@
 package com.experlabs.SpringBootStart.user.service;
 
-import com.experlabs.SpringBootStart.core.utils.HelperMethods;
+import com.experlabs.SpringBootStart.core.utils.ValidationUtil;
 import com.experlabs.SpringBootStart.user.configs.JwtService;
-import com.experlabs.SpringBootStart.user.models.AuthenticationResponse;
-import com.experlabs.SpringBootStart.user.models.AuthenticationRequest;
-import com.experlabs.SpringBootStart.user.models.RegisterRequest;
+import com.experlabs.SpringBootStart.core.models.AuthenticationResponse;
+import com.experlabs.SpringBootStart.core.models.AuthenticationRequest;
+import com.experlabs.SpringBootStart.core.models.RegisterRequest;
 import com.experlabs.SpringBootStart.user.respository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,9 +32,9 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("name not valid");
         if (request.getPassword() == null || request.getPassword().isBlank())
             throw new IllegalArgumentException("password not valid");
-        if (request.getEmail() == null || request.getEmail().isBlank() || !HelperMethods.isValidEmail(request.getEmail()))
+        if (request.getEmail() == null || request.getEmail().isBlank() || !ValidationUtil.isValidEmail(request.getEmail()))
             throw new IllegalArgumentException("email not valid");
-        if (request.getDob() == null || !HelperMethods.isValidDOB(request.getDob()))
+        if (request.getDob() == null || !ValidationUtil.isValidDOB(request.getDob()))
             throw new IllegalArgumentException("date of birth not valid");
 
         boolean isTaken = repository.findUserByEmail(request.getEmail()).isPresent();

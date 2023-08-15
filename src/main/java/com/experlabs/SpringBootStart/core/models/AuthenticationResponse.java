@@ -1,5 +1,6 @@
-package com.experlabs.SpringBootStart.user.models;
+package com.experlabs.SpringBootStart.core.models;
 
+import com.experlabs.SpringBootStart.user.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
