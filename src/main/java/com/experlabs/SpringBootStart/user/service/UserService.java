@@ -8,15 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    UsersDto getUsers(Map<String, String> queryParams);
 
-    User getUserByID(Long id);
+  UsersDto getUsers(Map<String, String> queryParams);
 
-    void deleteUserByID(Long id);
+  User getUserByID(Long id);
 
-    User updateUserByID(Long id, String name, String email, String password);
+  void deleteUserByID(Long id);
 
-    Address updateUserAddressById(Long id, Address address);
+  User updateUserByID(Long id, String name, String email, String password);
 
-    List<Address> getUserAddressById(Long id);
+  Address updateUserAddressById(Long id, Address address);
+
+  List<Address> getUserAddressById(Long id);
 }
