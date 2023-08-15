@@ -1,6 +1,8 @@
 package com.experlabs.SpringBootStart.user.respository;
 
 import com.experlabs.SpringBootStart.user.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findUserByEmail(String email);
 
     @Query("SELECT user FROM User user WHERE LOWER(user.name) LIKE LOWER(concat('%', ?1, '%'))")
-    List<User> findUserByNameFuzzySearch(String name);
+    Page<User> findUserByNameFuzzySearch(String name, Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package com.experlabs.SpringBootStart.user.controller;
 
 import com.experlabs.SpringBootStart.core.models.ResponseBody;
+import com.experlabs.SpringBootStart.user.dto.UsersDto;
 import com.experlabs.SpringBootStart.user.models.Address;
 import com.experlabs.SpringBootStart.user.models.User;
 import com.experlabs.SpringBootStart.user.service.UserService;
@@ -21,10 +22,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public List<User> getUsers(@RequestParam Map<String, String> queryParams) {
-        return userService.getUsers(queryParams);
-    }
+  @GetMapping
+  public UsersDto getUsers(@RequestParam Map<String, String> queryParams) {
+    return userService.getUsers(queryParams);
+  }
 
     @GetMapping(path = "{userId}")
     public ResponseEntity<Object> getUser(@PathVariable("userId") Long id) {

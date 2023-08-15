@@ -2,6 +2,8 @@ package com.experlabs.SpringBootStart.user.service;
 
 import com.experlabs.SpringBootStart.core.utils.StringUtil;
 import com.experlabs.SpringBootStart.core.utils.ValidationUtil;
+import com.experlabs.SpringBootStart.user.dto.MetaData;
+import com.experlabs.SpringBootStart.user.dto.UsersDto;
 import com.experlabs.SpringBootStart.user.models.Address;
 import com.experlabs.SpringBootStart.user.models.User;
 import com.experlabs.SpringBootStart.user.respository.AddressRepository;
@@ -9,6 +11,9 @@ import com.experlabs.SpringBootStart.user.respository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +37,36 @@ public class UserServiceImpl implements UserService {
             return userRepo.findUserByNameFuzzySearch(name);
         return userRepo.findAll();
     }
+  public UsersDto getUsers(Map<String, String> queryParams) {
+    String name = queryParams.get("name");
+    String pageSizeParam = queryParams.get("pageSize");
+    String pageNumberParam = queryParams.get("pageNumber");
+    int pageSize = 10;
+    int pageNumber = 0;
+    if (!StringUtil.isNullOrEmpty(pageSizeParam) && !StringUtil.isNullOrEmpty(pageNumberParam)) {
+      pageSize = Integer.parseInt(pageSizeParam);
+    }
+
+    if (!StringUtil.isNullOrEmpty(pageSizeParam) && !StringUtil.isNullOrEmpty(pageNumberParam)) {
+      pageNumber = Integer.parseInt(pageNumberParam);
+    }
+
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+    Page<User> page;
+    if (!StringUtil.isNullOrEmpty(name)) {
+      page = userRepo.findUserByNameFuzzySearch(name, pageable);
+    } else {
+      page = userRepo.findAll(pageable);
+    }
+    List<User> data = page.getContent();
+
+    MetaData metadata = MetaData.builder().totalItems(page.getTotalElements())
+        .pageSize((long) pageSize)
+        .pageNumber((long) pageNumber).hasMore(page.hasNext()).build();
+
+    return new UsersDto(metadata, data);
+  }
 
     public User getUserByID(Long id) {
         Optional<User> response = userRepo.findUserByID(id);
