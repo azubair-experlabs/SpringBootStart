@@ -1,7 +1,10 @@
 package com.experlabs.SpringBootStart.user.service;
 
-import com.experlabs.SpringBootStart.core.utils.HelperMethods;
+import com.experlabs.SpringBootStart.core.utils.StringUtil;
+import com.experlabs.SpringBootStart.core.utils.ValidationUtil;
+import com.experlabs.SpringBootStart.user.models.Address;
 import com.experlabs.SpringBootStart.user.models.User;
+import com.experlabs.SpringBootStart.user.respository.AddressRepository;
 import com.experlabs.SpringBootStart.user.respository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -18,6 +21,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
+
+    private final AddressRepository addressRepo;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -52,7 +57,7 @@ public class UserServiceImpl implements UserService {
             user.setName(name);
         if (password != null && !password.isBlank() && !passwordEncoder.matches(password, user.getPassword()))
             user.setPassword(passwordEncoder.encode(password));
-        if (email != null && !email.isBlank() && !email.equals(user.getName()) && HelperMethods.isValidEmail(email)) {
+        if (email != null && !email.isBlank() && !email.equals(user.getName()) && ValidationUtil.isValidEmail(email)) {
             boolean isAlreadyTaken = userRepo.findUserByEmail(email).isPresent();
             if (isAlreadyTaken)
                 throw new IllegalStateException("email already taken!");
@@ -60,5 +65,28 @@ public class UserServiceImpl implements UserService {
                 user.setEmail(email);
         }
         return user;
+    }
+
+    @Override
+    @Transactional
+    public Address updateUserAddressById(Long id, Address address) {
+        boolean notValid = StringUtil.isNullOrEmpty(address.getStreetAddress())
+                || StringUtil.isNullOrEmpty(address.getCity())
+                || StringUtil.isNullOrEmpty(address.getCountry())
+                || address.getType() == null;
+        if (notValid)
+            throw new IllegalArgumentException("Address not valid!");
+        User user = userRepo.findUserByID(id).orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
+
+        address.setUser(user);
+        user.getAddresses().add(address);
+        userRepo.save(user);
+        return address;
+    }
+
+    @Override
+    public List<Address> getUserAddressById(Long id) {
+        Optional<List<Address>> addresses = addressRepo.findByUser_Id(id);
+                return addresses.orElseThrow(() -> new EntityNotFoundException(String.format("user not found with id %d", id)));
     }
 }

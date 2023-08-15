@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -57,6 +58,10 @@ public class User implements UserDetails {
             nullable = false
     )
     private LocalDate dob;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // Prevents Jackson from serializing the addresses field
+    private List<Address> addresses = new ArrayList<>();
 
     @JsonProperty("age")
     Integer getAge() {

@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select user from User user where user.id=?1")
+    @Query("select user from User user left join fetch user.addresses where user.id=?1")
     Optional<User> findUserByID(Long id);
 
     @Query("SELECT user FROM User user WHERE user.email = :email")
@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT user FROM User user WHERE LOWER(user.name) LIKE LOWER(concat('%', ?1, '%'))")
     List<User> findUserByNameFuzzySearch(String name);
+
+    @Query("select user from User user left join fetch user.addresses where user.id=?1")
+    Optional<User> findUserAddressesByID(Long id);
 }
