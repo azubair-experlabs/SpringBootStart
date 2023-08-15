@@ -53,11 +53,11 @@ public class UserServiceImpl implements UserService {
         User user = userRepo.findUserByID(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("user not found with id %d", id)));
 
-        if (name != null && !name.isBlank() && !name.equals(user.getName()))
+        if (!StringUtil.isNullOrEmpty(name) && !name.equals(user.getName()))
             user.setName(name);
-        if (password != null && !password.isBlank() && !passwordEncoder.matches(password, user.getPassword()))
+        if (!StringUtil.isNullOrEmpty(password) && !passwordEncoder.matches(password, user.getPassword()))
             user.setPassword(passwordEncoder.encode(password));
-        if (email != null && !email.isBlank() && !email.equals(user.getName()) && ValidationUtil.isValidEmail(email)) {
+        if (!StringUtil.isNullOrEmpty(email) && !email.equals(user.getName()) && ValidationUtil.isValidEmail(email)) {
             boolean isAlreadyTaken = userRepo.findUserByEmail(email).isPresent();
             if (isAlreadyTaken)
                 throw new IllegalStateException("email already taken!");
